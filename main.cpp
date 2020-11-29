@@ -169,15 +169,22 @@ int main(int argc, char** argv){
 
     Mat2 m1(mr1, mr2);
 
-    std::cout << "Matrix 1: " << std::endl << m1 << std::endl;
+    std::cout << "Matrix 1: " << m1 << std::endl;
 
-    Mat2 ident2(1);
-    Mat3 ident3(1);
-    Mat4 ident4(1);
+	std::cout << "Matrix 1 inverse transpose: " << m1.InverseTranspose() << std::endl;
+	
+	Vec3 v1(1,2,3);
+	Vec3 v2(4,5,6);
+	Vec3 v3(7,8,9);
+	
+	Mat3 m2(v1, v2, v3);
+	
+	std::cout << "Matrix 2: " << m2 << std::endl << "Matrix 2 transpose: " << m2.InverseTranspose() << std::endl;
+	
+	
 
-
-    std::cout << "2x2 identity matrix: " << ident2 << std::endl;
-    std::cout << "3x3 identity matrix: " << ident3 << std::endl;
-    std::cout << "4x4 identity matrix: " << ident4 << std::endl;
+	
+	
+	
     return 0;
 }

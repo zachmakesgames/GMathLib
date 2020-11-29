@@ -18,6 +18,15 @@ class mat2{
             vals[0] = vec2<T>(diag, 0);
             vals[1] = vec2<T>(0, diag);
         }
+		
+		inline mat2<T> InverseTranspose(){
+			vec2<T> r1(this->vals[0][0], this->vals[1][0]);
+			vec2<T> r2(this->vals[0][1], this->vals[1][1]);
+			
+			mat2<T> newMat(r1, r2);
+			
+			return newMat;
+		}
 
         inline vec2<T> operator[](const int& index){
             return this->vals[index];
@@ -32,6 +41,7 @@ class mat2{
 
     friend class vec2<T>;
 };
+
 
 template <class T>
 class mat3{
@@ -51,6 +61,16 @@ class mat3{
             vals[1] = vec3<T>(0, diag, 0);
             vals[2] = vec3<T>(0, 0, diag);
         }
+		
+		inline mat3<T> InverseTranspose(){
+			vec3<T> r1(this->vals[0][0], this->vals[1][0], this->vals[2][0]);
+			vec3<T> r2(this->vals[0][1], this->vals[1][1], this->vals[2][1]);
+			vec3<T> r3(this->vals[0][2], this->vals[1][2], this->vals[2][2]);
+			
+			mat3<T> newMat(r1, r2, r3);
+			
+			return newMat;
+		}
 
         inline vec3<T> operator[](const int& index){
             return this->vals[index];
@@ -86,10 +106,35 @@ class mat4{
             vals[2] = vec4<T>(0, 0, diag, 0);
             vals[3] = vec4<T>(0, 0, 0, diag);
         }
+		
+		
+		
+		inline mat4<T> InverseTranspose(){
+			vec4<T> r1(this->vals[0][0], this->vals[1][0], this->vals[2][0], this->vals[3][0]);
+			vec4<T> r2(this->vals[0][1], this->vals[1][1], this->vals[2][1], this->vals[3][1]);
+			vec4<T> r3(this->vals[0][2], this->vals[1][2], this->vals[2][2], this->vals[3][2]);
+			vec4<T> r4(this->vals[0][3], this->vals[1][3], this->vals[2][3], this->vals[3][3]);
+			
+			mat4<T> newMat(r1, r2, r3, r4);
+			
+			return newMat;
+		}
+		
+		
+		inline mat4<T> RotateLeft(){
+			vec4<T> r1(this->vals[0][3], this->vals[1][3], this->vals[2][3], this->vals[3][3]);
+			vec4<T> r2(this->vals[0][2], this->vals[1][2], this->vals[2][2], this->vals[3][2]);
+			vec4<T> r3(this->vals[0][1], this->vals[1][1], this->vals[2][1], this->vals[3][1]);
+			vec4<T> r4(this->vals[0][0], this->vals[1][0], this->vals[2][0], this->vals[3][0]);
+			return mat4<T>(r1, r2, r3, r4);
+		}
+		
+
 
         inline vec4<T> operator[](const int& index){
             return this->vals[index];
         }
+		
 
         friend inline std::ostream& operator<<(std::ostream& os, mat4<T> mat){
             os << std::endl;
@@ -99,6 +144,13 @@ class mat4{
             os << "[" << mat[3][0] << ", " << mat[3][1] << ", " << mat[3][2] << ", " << mat[3][3] << "]";
             return os;
         }
+		
+		friend inline vec4<T> operator*(vec4<T>& vec, mat4<T>& mat){
+			mat4<T> rotate = mat.InverseTranspose();
+			
+			return vec4<T>(vec.Dot(rotate[0]), vec.Dot(rotate[1]), vec.Dot(rotate[2]), vec.Dot(rotate[3]));
+		}
+
 
     friend class vec4<T>;
 };
